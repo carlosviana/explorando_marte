@@ -5,30 +5,27 @@ defmodule ExplorandoMarte do
   alias ExplorandoMarte.DirecaoCardinal
 
   def script_sonda(area, posicao, comandos) do
-
     comandos = String.graphemes(comandos)
 
-    processa_comando(area, posicao, comandos, 0)
-
+    processa_comando(area, posicao, comandos, length(comandos))
   end
 
-  def processa_comando(area, posicao, comandos, count \\ 0), do: :ok
-
-  def processa_comando(area, posicao, comandos, count) when count < length(comandos) do
-
-    comando = Enum.at(comandos, count)
+  def processa_comando(area, posicao, comandos, count) when count > 0 do
+    [comando | restante] = comandos
 
     cond do
       comando == "L" || comando == "R" ->
-        processa_comando(area, muda_posicao(comando, posicao), comandos, count + 1)
+        processa_comando(area, muda_posicao(comando, posicao), restante, count - 1)
 
       comando == "M" ->
-        processa_comando(area, movimenta(posicao, area), comandos, count + 1)
+        processa_comando(area, movimenta(posicao, area), restante, length(restante))
 
-      true -> comando
+      true ->
+        "teste"
     end
-
   end
+
+  def processa_comando(_area, posicao, _comandos, _count \\ 0), do: posicao
 
   def muda_posicao(comando, posicao) do
     nova_posicao =
@@ -48,7 +45,6 @@ defmodule ExplorandoMarte do
   end
 
   def movimenta(posicao, area) do
-
     pos = String.split(posicao)
 
     area = %{:x => Enum.at(area, 0), :y => Enum.at(area, 0)}

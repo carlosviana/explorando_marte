@@ -3,15 +3,15 @@ defmodule ExplorandoMarteTest do
   doctest ExplorandoMarte
 
   test "mudando de posicao no script" do
-    assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "L") == ["1 2 W"]
+    assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "L") == "1 2 W"
   end
 
   test "movimento unico dentro do script" do
-    assert ExplorandoMarte.script_sonda([5, 5], "1 2 W", "M") == ["0 2 W"]
+    assert ExplorandoMarte.script_sonda([5, 5], "1 2 W", "M") == "0 2 W"
   end
 
   test "movimentos completos" do
-    assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "LMLMLMLMM") |> List.last() == "1 3 N"
+    assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "LMLMLMLMM") == "1 3 N"
     assert ExplorandoMarte.script_sonda([5, 5], "3 3 E", "MMRMMRMRRM") == "5 1 E"
   end
 
