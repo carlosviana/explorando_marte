@@ -15,6 +15,15 @@ defmodule ExplorandoMarteTest do
     assert ExplorandoMarte.script_sonda([5, 5], "3 3 E", "MMRMMRMRRM") == "5 1 E"
   end
 
+  test "movimentos completos fora da área" do
+    assert ExplorandoMarte.script_sonda([5, 5], "3 4 S", "RRMM") == "3 5 N"
+    assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "LMMLMM") == "0 0 S"
+  end
+
+  test "movimentos complexo" do
+    assert ExplorandoMarte.script_sonda([5, 5], "3 3 E", "LMMLMRMMMLMRMRMMRRMM") == "1 5 W"
+  end
+
   test "mudando posicao" do
     assert ExplorandoMarte.muda_posicao("L", "N") == "W"
     assert ExplorandoMarte.muda_posicao("R", "N") == "E"
