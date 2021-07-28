@@ -6,29 +6,19 @@ defmodule ExplorandoMarte do
 
   def script_sonda(area, posicao, comandos) do
 
-    proc = String.graphemes(comandos)
-    |> Enum.each(fn comando ->
-      processa_comando(area, posicao, comando)
-    end)
+    comandos = String.graphemes(comandos)
 
+    for comando <- comandos do
+      cond do
+        comando == "L" || comando == "R" ->
+          muda_posicao(comando, posicao)
 
-    IO.inspect(proc)
+        comando == "M" ->
+          movimenta(posicao, area)
 
-  end
-
-  def processa_comando(area, posicao, comando) do
-    com = cond do
-      comando == "L" || comando == "R" ->
-        muda_posicao(comando, posicao)
-
-      comando == "M" ->
-        movimenta(posicao, area)
-
-      true ->
-        comando
+        true -> comando
+      end
     end
-
-    com
   end
 
   def muda_posicao(comando, posicao) do
@@ -49,6 +39,7 @@ defmodule ExplorandoMarte do
   end
 
   def movimenta(posicao, area) do
+
     pos = String.split(posicao)
 
     area = %{:x => Enum.at(area, 0), :y => Enum.at(area, 0)}
