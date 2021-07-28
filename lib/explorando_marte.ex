@@ -21,7 +21,7 @@ defmodule ExplorandoMarte do
         processa_comando(area, movimenta(posicao, area), restante, length(restante))
 
       true ->
-        "teste"
+        nil
     end
   end
 
