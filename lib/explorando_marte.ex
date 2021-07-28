@@ -8,17 +8,26 @@ defmodule ExplorandoMarte do
 
     comandos = String.graphemes(comandos)
 
-    for comando <- comandos do
-      cond do
-        comando == "L" || comando == "R" ->
-          muda_posicao(comando, posicao)
+    processa_comando(area, posicao, comandos, 0)
 
-        comando == "M" ->
-          movimenta(posicao, area)
+  end
 
-        true -> comando
-      end
+  def processa_comando(area, posicao, comandos, count \\ 0), do: :ok
+
+  def processa_comando(area, posicao, comandos, count) when count < length(comandos) do
+
+    comando = Enum.at(comandos, count)
+
+    cond do
+      comando == "L" || comando == "R" ->
+        processa_comando(area, muda_posicao(comando, posicao), comandos, count + 1)
+
+      comando == "M" ->
+        processa_comando(area, movimenta(posicao, area), comandos, count + 1)
+
+      true -> comando
     end
+
   end
 
   def muda_posicao(comando, posicao) do
