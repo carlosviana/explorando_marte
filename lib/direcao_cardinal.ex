@@ -1,16 +1,23 @@
 defmodule ExplorandoMarte.DirecaoCardinal do
-  # REFACTORY
   def get(posicao, comando) do
-    cond do
-      posicao == "N" && comando == "L" -> "W"
-      posicao == "N" && comando == "R" -> "E"
-      posicao == "S" && comando == "L" -> "E"
-      posicao == "S" && comando == "R" -> "W"
-      posicao == "E" && comando == "L" -> "N"
-      posicao == "E" && comando == "R" -> "S"
-      posicao == "W" && comando == "L" -> "S"
-      posicao == "W" && comando == "R" -> "N"
-      true -> nil
-    end
+    direcoes = ["N", "E", "S", "W"]
+
+    pos = Enum.find_index(direcoes, fn x -> x == posicao end)
+
+    pos =
+      cond do
+        comando == "R" -> pos + 1
+        comando == "L" -> pos - 1
+        true -> pos
+      end
+
+    pos =
+      cond do
+        pos == -1 -> 3
+        pos == 4 -> 0
+        true -> pos
+      end
+
+    Enum.at(direcoes, pos)
   end
 end
