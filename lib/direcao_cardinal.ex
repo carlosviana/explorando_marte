@@ -1,5 +1,5 @@
 defmodule ExplorandoMarte.DirecaoCardinal do
-  def get(posicao, comando) do
+  def get_posicao(posicao, comando) do
     direcoes = ["N", "E", "S", "W"]
 
     pos = Enum.find_index(direcoes, fn x -> x == posicao end)
@@ -19,5 +19,22 @@ defmodule ExplorandoMarte.DirecaoCardinal do
       end
 
     Enum.at(direcoes, pos)
+  end
+
+  def muda_posicao(comando, posicao) do
+    nova_posicao =
+      posicao
+      |> String.graphemes()
+      |> Enum.reverse()
+      |> hd()
+      |> get_posicao(comando)
+
+    posicao
+    |> String.graphemes()
+    |> Enum.reverse()
+    |> tl()
+    |> Enum.reverse()
+    |> Enum.concat([nova_posicao])
+    |> List.to_string()
   end
 end

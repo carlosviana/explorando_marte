@@ -2,6 +2,16 @@ defmodule ExplorandoMarteTest do
   use ExUnit.Case
   doctest ExplorandoMarte
 
+  alias ExplorandoMarte.DirecaoCardinal
+
+  test "funcao de start do input" do
+    File.rm("saida.txt")
+
+    ExplorandoMarte.start("entrada.txt")
+
+    assert File.exists?("saida.txt")
+  end
+
   test "mudando de posicao no script" do
     assert ExplorandoMarte.script_sonda([5, 5], "1 2 N", "L") == "1 2 W"
   end
@@ -25,13 +35,13 @@ defmodule ExplorandoMarteTest do
   end
 
   test "mudando posicao" do
-    assert ExplorandoMarte.muda_posicao("L", "N") == "W"
-    assert ExplorandoMarte.muda_posicao("R", "N") == "E"
-    assert ExplorandoMarte.muda_posicao("L", "S") == "E"
-    assert ExplorandoMarte.muda_posicao("R", "S") == "W"
-    assert ExplorandoMarte.muda_posicao("L", "E") == "N"
-    assert ExplorandoMarte.muda_posicao("R", "E") == "S"
-    assert ExplorandoMarte.muda_posicao("L", "W") == "S"
-    assert ExplorandoMarte.muda_posicao("R", "W") == "N"
+    assert DirecaoCardinal.muda_posicao("L", "N") == "W"
+    assert DirecaoCardinal.muda_posicao("R", "N") == "E"
+    assert DirecaoCardinal.muda_posicao("L", "S") == "E"
+    assert DirecaoCardinal.muda_posicao("R", "S") == "W"
+    assert DirecaoCardinal.muda_posicao("L", "E") == "N"
+    assert DirecaoCardinal.muda_posicao("R", "E") == "S"
+    assert DirecaoCardinal.muda_posicao("L", "W") == "S"
+    assert DirecaoCardinal.muda_posicao("R", "W") == "N"
   end
 end

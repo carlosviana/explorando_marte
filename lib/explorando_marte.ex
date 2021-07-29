@@ -3,29 +3,36 @@ defmodule ExplorandoMarte do
   Documentation for `ExplorandoMarte`.
   """
   alias ExplorandoMarte.DirecaoCardinal
+  alias ExplorandoMarte.MovimentaSonda
 
   def start(path) do
-    {:ok, contents} = File.read(path)
+    case File.read(path) do
+      {:ok, contents} ->
+        [area | script] =
+          contents
+          |> String.split("\n", trim: true)
 
-    [area | script] =
-      contents
-      |> String.split("\n", trim: true)
+        area = String.split(area, " ")
 
-    area = String.split(area, " ")
+        script
+        |> Enum.chunk_every(2)
+        |> Enum.map(fn comm ->
+          script_sonda(area, Enum.at(comm, 0), Enum.at(comm, 1))
+        end)
+        |> salva_saida()
 
-    script
-    |> Enum.chunk_every(2)
-    |> Enum.map(fn comm ->
-      script_sonda(area, Enum.at(comm, 0), Enum.at(comm, 1))
-    end)
-    |> salva_saida()
+      {:error, :enoent} ->
+        IO.puts("Erro ao abrir o arquivo")
+    end
   end
 
   defp salva_saida(valor) do
-    {:ok, file} = File.open("saida", [:write])
+    {:ok, file} = File.open("saida.txt", [:write])
+
     Enum.each(valor, fn linha ->
       IO.binwrite(file, linha <> "\n")
     end)
+
     File.close(file)
   end
 
@@ -40,68 +47,20 @@ defmodule ExplorandoMarte do
 
     cond do
       comando == "L" || comando == "R" ->
-        processa_comando(area, muda_posicao(comando, posicao), restante, count - 1)
+        processa_comando(
+          area,
+          DirecaoCardinal.muda_posicao(comando, posicao),
+          restante,
+          count - 1
+        )
 
       comando == "M" ->
-        processa_comando(area, movimenta(posicao, area), restante, length(restante))
+        processa_comando(area, MovimentaSonda.movimenta(posicao, area), restante, count - 1)
 
       true ->
         nil
     end
   end
 
-  def processa_comando(_area, posicao, _comandos, _count \\ 0), do: posicao
-
-  def muda_posicao(comando, posicao) do
-    nova_posicao =
-      posicao
-      |> String.graphemes()
-      |> Enum.reverse()
-      |> hd()
-      |> DirecaoCardinal.get(comando)
-
-    posicao
-    |> String.graphemes()
-    |> Enum.reverse()
-    |> tl()
-    |> Enum.reverse()
-    |> Enum.concat([nova_posicao])
-    |> List.to_string()
-  end
-
-  def movimenta(posicao, area) do
-    pos = String.split(posicao)
-
-    area = %{:x => Enum.at(area, 0), :y => Enum.at(area, 0)}
-
-    pos = %{
-      :x => Enum.at(pos, 0) |> String.to_integer(),
-      :y => Enum.at(pos, 1) |> String.to_integer(),
-      :direcao => Enum.at(pos, 2)
-    }
-
-    xs =
-      cond do
-        pos[:direcao] == "W" && pos[:x] > 0 ->
-          %{pos | :x => pos[:x] - 1}
-
-        pos[:direcao] == "E" && pos[:x] < area[:x] ->
-          %{pos | :x => pos[:x] + 1}
-
-        pos[:direcao] == "N" && pos[:y] < area[:y] ->
-          %{pos | :y => pos[:y] + 1}
-
-        pos[:direcao] == "S" && pos[:y] > 0 ->
-          %{pos | :y => pos[:y] - 1}
-
-        true ->
-          pos
-      end
-
-    x = xs[:x] |> Integer.to_string()
-    y = xs[:y] |> Integer.to_string()
-    dir = xs[:direcao]
-
-    x <> " " <> y <> " " <> dir
-  end
+  def processa_comando(_area, posicao, _comandos, _count), do: posicao
 end

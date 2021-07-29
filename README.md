@@ -1,21 +1,12 @@
-# ExplorandoMarte
+# Explorando Marte
 
-**TODO: Add description**
+## Parâmetros de funcionamento
 
-## Installation
+Como o desafio se baseia em entrada e saída de informações, fiz de um jeito que fique prático testar.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `explorando_marte` to your list of dependencies in `mix.exs`:
+1. Crie um arquivo com a estrutura proposta no desafio.
 
-```elixir
-def deps do
-  [
-    {:explorando_marte, "~> 0.1.0"}
-  ]
-end
-```
+2. Chama a função ```ExplorandoMarte.start(path)``` passando o caminho completo do arquivo.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/explorando_marte](https://hexdocs.pm/explorando_marte).
+3. Será gravado um arquivo **saida.txt** no final do processamento.
 
