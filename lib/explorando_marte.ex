@@ -4,6 +4,31 @@ defmodule ExplorandoMarte do
   """
   alias ExplorandoMarte.DirecaoCardinal
 
+  def start(path) do
+    {:ok, contents} = File.read(path)
+
+    [area | script] =
+      contents
+      |> String.split("\n", trim: true)
+
+    area = String.split(area, " ")
+
+    script
+    |> Enum.chunk_every(2)
+    |> Enum.map(fn comm ->
+      script_sonda(area, Enum.at(comm, 0), Enum.at(comm, 1))
+    end)
+    |> salva_saida()
+  end
+
+  defp salva_saida(valor) do
+    {:ok, file} = File.open("saida", [:write])
+    Enum.each(valor, fn linha ->
+      IO.binwrite(file, linha <> "\n")
+    end)
+    File.close(file)
+  end
+
   def script_sonda(area, posicao, comandos) do
     comandos = String.graphemes(comandos)
 
