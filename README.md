@@ -1,5 +1,5 @@
 # Explorando Marte
-
+[![Elixir CI](https://github.com/carlosviana/explorando_marte/actions/workflows/elixir.yml/badge.svg)](https://github.com/carlosviana/explorando_marte/actions/workflows/elixir.yml)
 ## Parâmetros de funcionamento
 
 Como o desafio se baseia em entrada e saída de informações, fiz de um jeito que fique prático testar.
