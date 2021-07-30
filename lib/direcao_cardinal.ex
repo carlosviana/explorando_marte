@@ -1,4 +1,7 @@
 defmodule ExplorandoMarte.DirecaoCardinal do
+  @moduledoc """
+  false
+  """
   def get_posicao(posicao, comando) do
     direcoes = ["N", "E", "S", "W"]
 

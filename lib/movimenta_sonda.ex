@@ -1,4 +1,7 @@
 defmodule ExplorandoMarte.MovimentaSonda do
+  @moduledoc """
+  false
+  """
   def movimenta(posicao, area) do
     pos = String.split(posicao)
 
