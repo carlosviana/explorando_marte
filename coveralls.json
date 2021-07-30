@@ -1,0 +1,14 @@
+{
+    "skip_files": [
+        "lib/explorando_marte/application.ex",
+        "lib/explorando_marte/release.ex",
+        "lib/explorando_marte_web.ex",
+        "lib/explorando_marte/views/error_helpers.ex",
+      "test/support/channel_case.ex"
+    ],
+    "coverage_options": {
+      "treat_no_relevat_lines_as_covered": true,
+      "output_dir": "cover/",
+      "minimum_coverage": 75
+    }
+  }
